@@ -1,8 +1,15 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 
-app.get('/',(req, res) => res.send('Hola'));
+// Sirviendo archivos estáticos generados del frontend
+app.use(express.static(path.join(__dirname, 'frontend/dist/AxoApp/browser')));
 
-app.listen(3000);
+// Redirección de otras rutas al index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/dist/AxoApp/browser/index.html'));
+});
 
-console.log('Server on port', 3000);
+app.listen(3000, () => {
+  console.log('Servidor corriendo en puerto 3000');
+});
